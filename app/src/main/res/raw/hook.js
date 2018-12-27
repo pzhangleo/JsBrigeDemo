@@ -15,4 +15,35 @@ const tronWeb = new TronWeb(
     privateKey
 );
 
+const pageHook = {
+
+    init() {
+        console.log("PageHook is in init");
+
+        tronWeb.trx.sign = function sign(transaction = false, privateKey = this.tronWeb.defaultPrivateKey, useTronHeader = true, callback = false) {
+            console.log("This is my sign methon");
+            console.log("This is transaction: " + JSON.stringify(transaction));
+        };
+
+        tronWeb.transactionBuilder.triggerSmartContract = (function triggerSmartContract(contractAddress,functionSelector,feeLimit,callValue,parameters,issuerAddress,callback){
+            var cache_function = tronWeb.transactionBuilder.triggerSmartContract;
+
+
+            return function() {
+                    // your code
+                                console.log("This is my transactionBuilder.triggerSmartContract");
+                                console.log("This is function is " + JSON.stringify(functionSelector));
+
+                    var result = cached_function.apply(contractAddress,functionSelector,feeLimit,callValue,parameters,issuerAddress,callback); // use .apply() to call it
+
+                    // more of your code
+
+                    return result;
+                };
+        })()
+    }
+}
+
+pageHook.init();
+
 window.tronWeb = tronWeb
