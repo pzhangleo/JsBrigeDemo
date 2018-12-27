@@ -1,5 +1,6 @@
 package com.zhp.jsbrigedemo;
 
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.style.TtsSpan;
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 injectScriptFile(view);
+            }
+
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                Log.d("WebRequest", "url is " + request.getUrl().toString());
+                return super.shouldInterceptRequest(view, request);
             }
         });
     }

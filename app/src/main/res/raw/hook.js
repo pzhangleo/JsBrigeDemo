@@ -26,22 +26,13 @@ const pageHook = {
 
         console.log("This is my address " + JSON.stringify(tronWeb.defaultAddress))
 
-//        var cached_function = tronWeb.transactionBuilder.triggerSmartContract;
-//        tronWeb.transactionBuilder.triggerSmartContract = function triggerSmartContract(contractAddress,functionSelector,feeLimit,callValue,parameters,issuerAddress,callback){
-//            console.log("This is my transactionBuilder.triggerSmartContract");
-//            console.log("This is function is " + JSON.stringify(functionSelector));
-//            return callback = contractAddress
-////            cached_function.apply(this, arguments)
-////            return function() {
-////                    // your code
-////
-////                    var result = cached_function.apply(this, contractAddress,functionSelector,feeLimit,callValue,parameters,issuerAddress,callback); // use .apply() to call it
-////
-////                    // more of your code
-////
-////                    return result;
-////                };
-//        }
+        var cached_function = tronWeb.transactionBuilder.triggerSmartContract;
+        tronWeb.transactionBuilder.triggerSmartContract = function triggerSmartContract(contractAddress,functionSelector,feeLimit,callValue,parameters,issuerAddress ,callback){
+            console.log("This is my transactionBuilder.triggerSmartContract");
+            console.log("This is arguments " + JSON.stringify(arguments));
+            issuerAddress = this.tronWeb.defaultAddress.hex
+            return cached_function.apply(this, arguments)
+        }
     }
 }
 
